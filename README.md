@@ -15,10 +15,6 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 For production mode
 
-### `npm run test`
+### `first step`:  deploy on render: 
+https://backend-project-6-wv42.onrender.com
 
-Run the test cases.
-
-## Learn More
-
-To learn Fastify, check out the [Fastify documentation](https://fastify.dev/docs/latest/).
