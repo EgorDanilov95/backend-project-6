@@ -1,0 +1,33 @@
+doctype html
+html(lang='ru')
+  head
+    meta(charset='utf-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1')
+    title= title || 'Менеджер задач Хекслет'
+    link(href="/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet")
+
+  body.d-flex.flex-column.min-vh-100
+    nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.mb-4
+      .container-fluid
+        a.navbar-brand(href='/') Менеджер задач
+        button.navbar-toggler(type='button' data-bs-toggle='collapse' data-bs-target='#navbarNav')
+          span.navbar-toggler-icon
+        .collapse.navbar-collapse#navbarNav
+          ul.navbar-nav
+            li.nav-item
+              a.nav-link(href='/users') Пользователи
+          ul.navbar-nav.ms-auto
+            li.nav-item
+              a.nav-link(href='/session/new') Вход
+            li.nav-item
+              a.nav-link(href='/users/new') Регистрация
+
+    main.container.flex-grow-1
+      block content
+
+    footer.footer.mt-auto.py-3.bg-light
+      .container.text-center
+        span.text-muted © 2026 Менеджер задач Хекслет
+
+    script(src="/assets/bootstrap/js/bootstrap.bundle.min.js")
+    block scripts
