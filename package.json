@@ -12,7 +12,7 @@
       "test": "jest --verbose --runInBand",
       "build": "webpack",
       "start": "fastify start server/plugin.js -l debug -P -o",
-	"db:migrate": "knex migrate:latest"
+      "db:migrate": "knex migrate:latest"
    },
    "jest": {
       "modulePathIgnorePatterns": [
