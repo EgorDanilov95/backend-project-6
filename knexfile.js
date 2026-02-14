@@ -7,7 +7,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const migrations = {
   directory: path.join(__dirname, 'server', 'migrations'),
-};
+}
 
 export const development = {
   client: 'sqlite3',
@@ -16,21 +16,18 @@ export const development = {
   },
   useNullAsDefault: true,
   migrations,
-};
+}
 
 export const test = {
   client: 'sqlite3',
   connection: ':memory:',
   useNullAsDefault: true,
-  // debug: true,
   migrations,
-};
+}
 
 export const production = {
-  client: 'sqlite3',
-  connection: {
-    filename: path.resolve(__dirname, 'database.sqlite'),
-  },
-  useNullAsDefault: true,
+  client: 'postgresql',
+  connection: process.env.DATABASE_URL,
   migrations,
-};
+  pool: { min: 2, max: 10 }, 
+}
