@@ -1,15 +1,28 @@
 extends ../layouts/application.pug
 
+
+block header
+  = t('layouts.application.users')
+
 block content
-  table.table.table-striped
-    thead
-      tr
-        th= t('views.users.id')
-        th= t('views.users.email')
-        th= t('views.users.createdAt')
-    tbody
-      each user in users
+  .mt-4 
+    table.table.table-striped
+      thead
         tr
-          td= user.id
-          td= user.email
-          td= formatDate(user.createdAt)
+          th= t('views.users.id')
+          th= t('views.users.fullName')
+          th= t('views.users.email')
+          th= t('views.users.createdAt')
+          th= t('views.users.actions')
+      tbody
+        each user in users
+          tr
+            td= user.id
+            td= `${user.firstName} ${user.lastName}`
+            td= user.email
+            td= formatDate(user.createdAt)
+            td
+              if currentUser && currentUser.id === user.id
+                a.btn.btn-primary.btn-sm.me-2(href=`/users/${user.id}/edit`) Изменить
+                +buttonTo(`/users/${user.id}`, 'delete')(class="btn btn-danger btn-sm" value="Удалить")
+                

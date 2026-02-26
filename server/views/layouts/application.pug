@@ -7,31 +7,32 @@ html(lang="ru")
     script(src=assetPath('main.js'))
     link(href=assetPath('main.css') rel="stylesheet")
     meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
-  body.d-flex.flex-column.min-vh-100.text-center.text-white.bg-dark
+  body.d-flex.flex-column.min-vh-100.text-center.bg-light
   
     .cover-container.d-flex.w-100.h-100.p-3.mx-auto.flex-column.flex-grow-1
       header.mb-auto
         .d-flex.flex-wrap.align-items-center.justify-content-between
         
           h3.float-md-start.mb-0
-            a.text-white.text-decoration-none(href=route('root'))= t('appName')
+            a.text-dark.text-decoration-none(href=route('root'))= t('appName')
           
           nav.nav.nav-masthead.justify-content-center.float-md-end.gap-4
-            a.nav-link.fw-bold.py-1.px-0(href=route('users') class={ active: currentRoute === 'users' })= t('layouts.application.users')
+            a.nav-link.fw-bold.py-1.px-0.text-dark(href=route('users') class={ active: currentRoute === 'users' })= t('layouts.application.users')
             if isAuthenticated()
-              +buttonTo(route('session'), 'delete')(class="btn nav-link fw-bold py-1 px-0" value=t('layouts.application.signOut'))
+              +buttonTo(route('session'), 'delete')(class="btn nav-link fw-bold py-1 px-0 text-dark" value=t('layouts.application.signOut'))
             else
-              a.nav-link.fw-bold.py-1.px-0(href=route('newSession') class={ active: currentRoute === 'newSession' })= t('layouts.application.signIn')
-              a.nav-link.fw-bold.py-1.px-0(href=route('newUser') class={ active: currentRoute === 'newUser' })= t('layouts.application.signUp')
+              a.nav-link.fw-bold.py-1.px-0.text-dark(href=route('newSession') class={ active: currentRoute === 'newSession' })= t('layouts.application.signIn')
+              a.nav-link.fw-bold.py-1.px-0.text-dark(href=route('newUser') class={ active: currentRoute === 'newUser' })= t('layouts.application.signUp')
+      
       .container.wrapper.flex-grow-1
         each messages, type in reply.flash() || []
           each message in messages
             div.alert(class=`alert-${getAlertClass(type)}`)= message
 
-        h1.my-4
+        h1.my-4.text-dark
           block header
         block content
 
       footer.footer.mt-auto.py-3.border-top.border-secondary
         .container.text-center
-          span.text-white-50 © 2026 Менеджер задач Хекслет
+          span.text-secondary © 2026 Менеджер задач Хекслет

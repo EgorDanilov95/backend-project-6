@@ -4,7 +4,12 @@ block header
   = t('views.session.new.signIn')
 
 block content
-  +formFor()(action=route('session') method='post')
-    +input(signInForm, 'email', errors)(type="text")
-    +input(signInForm, 'password')(type="password")
-    +submit(signInForm)(value=t('views.session.new.submit'))
+  .container
+    .row.justify-content-center
+      .col-md-6
+        .card.shadow-sm.bg-white.bg-opacity-85
+          .card-body.text-dark
+            +formFor()(action=route('session') method='post')
+              +input(signInForm, 'email', errors)(type="email")
+              +input(signInForm, 'password', errors)(type="password")
+              +submit(signInForm)(value=t('views.session.new.submit'))
