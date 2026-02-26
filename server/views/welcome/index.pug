@@ -1,8 +1,16 @@
 extends ../layouts/application.pug
 
 block content
-  main.px-3
-    h1= t('views.welcome.index.hello')
-    p.lead= t('views.welcome.index.description')
-    p.lead
-      a.btn.btn-lg.btn-secondary.fw-bold.border-white.bg-white.text-black(href='https://hexlet.io/')= t('views.welcome.index.more')
+  .row.justify-content-center.mt-5
+    .col-md-10.col-lg-8
+      .p-5.mb-4.bg-white.rounded-4.border.border-light-subtle.shadow-sm
+        .container-fluid.py-3.text-center
+          
+          h1.display-5.fw-bold.text-dark.mb-4
+            = t('views.welcome.index.hello')
+          
+          p.fs-5.text-secondary.mx-auto.mb-5(style="max-width: 600px; line-height: 1.6;")
+            = t('views.welcome.index.description')
+        
+          a.btn.btn-outline-primary.btn-lg.px-5.py-3.rounded-pill.fw-medium(href='https://hexlet.io' target="_blank")
+            = t('views.welcome.index.more')

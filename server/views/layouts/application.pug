@@ -1,38 +1,49 @@
 include ../mixins/forms.pug
 
 doctype html
-html(lang="ru")
+html(lang="ru").h-100
   head
     title Менеджер задач
     script(src=assetPath('main.js'))
     link(href=assetPath('main.css') rel="stylesheet")
     meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
-  body.d-flex.flex-column.min-vh-100.text-center.bg-light
+  body.d-flex.flex-column.h-100.bg-light
   
-    .cover-container.d-flex.w-100.h-100.p-3.mx-auto.flex-column.flex-grow-1
-      header.mb-auto
-        .d-flex.flex-wrap.align-items-center.justify-content-between
-        
-          h3.float-md-start.mb-0
-            a.text-dark.text-decoration-none(href=route('root'))= t('appName')
+    header.bg-white.shadow-sm.border-bottom.mb-4
+      .container
+        nav.navbar.navbar-expand-lg.navbar-light.py-3
+          a.navbar-brand.fw-bold.text-primary.fs-4(href=route('root'))= t('appName')
           
-          nav.nav.nav-masthead.justify-content-center.float-md-end.gap-4
-            a.nav-link.fw-bold.py-1.px-0.text-dark(href=route('users') class={ active: currentRoute === 'users' })= t('layouts.application.users')
-            if isAuthenticated()
-              +buttonTo(route('session'), 'delete')(class="btn nav-link fw-bold py-1 px-0 text-dark" value=t('layouts.application.signOut'))
-            else
-              a.nav-link.fw-bold.py-1.px-0.text-dark(href=route('newSession') class={ active: currentRoute === 'newSession' })= t('layouts.application.signIn')
-              a.nav-link.fw-bold.py-1.px-0.text-dark(href=route('newUser') class={ active: currentRoute === 'newUser' })= t('layouts.application.signUp')
-      
-      .container.wrapper.flex-grow-1
+          button.navbar-toggler(type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent")
+            span.navbar-toggler-icon
+          
+          #navbarContent.collapse.navbar-collapse
+            ul.navbar-nav.me-auto.mb-2.mb-lg-0
+              li.nav-item
+                a.nav-link.px-3(href=route('users') class={ 'active fw-bold text-dark': currentRoute === 'users' })= t('layouts.application.users')
+            ul.navbar-nav.gap-2
+              if isAuthenticated()
+                li.nav-item
+                  +buttonTo(route('session'), 'delete')(class="btn btn-outline-danger btn-sm px-3 fw-medium" value=t('layouts.application.signOut'))
+              else
+                li.nav-item
+                  a.nav-link.px-3(href=route('newSession') class={ 'active fw-bold text-dark': currentRoute === 'newSession' })= t('layouts.application.signIn')
+                li.nav-item
+                  a.btn.btn-primary.px-4.shadow-sm(href=route('newUser'))= t('layouts.application.signUp')
+    main.container.wrapper.flex-grow-1
+      if reply.flash
         each messages, type in reply.flash() || []
           each message in messages
-            div.alert(class=`alert-${getAlertClass(type)}`)= message
+            .alert.alert-dismissible.fade.show(class=`alert-${getAlertClass(type)}` role="alert")
+              = message
+              button.btn-close(type="button" data-bs-dismiss="alert" aria-label="Close")
 
-        h1.my-4.text-dark
-          block header
-        block content
-
-      footer.footer.mt-auto.py-3.border-top.border-secondary
-        .container.text-center
-          span.text-secondary © 2026 Менеджер задач Хекслет
+      .row.justify-content-center
+        .col-12
+          h1.display-4.fw-bold.my-4
+            block header
+          block content
+          
+    footer.footer.mt-auto.py-4.bg-white.border-top
+      .container.text-center
+        span.text-muted.small © 2026 Менеджер задач Хекслет
