@@ -8,18 +8,19 @@
       "node": ">=16.x"
    },
    "scripts": {
+      "test": "NODE_OPTIONS='--experimental-vm-modules' jest",
       "prebuild": "rm -rf dist",
-      "test": "jest --verbose --runInBand",
       "build": "webpack",
       "start": "fastify start server/plugin.js -l debug -P -o",
       "db:migrate": "knex migrate:latest"
    },
    "jest": {
+      "testEnvironment": "node",
       "modulePathIgnorePatterns": [
          "<rootDir>/__tests__/helpers/"
       ],
       "setupFiles": [
-         "dotenv/config"
+         "dotenv/config","./jest.setup.js"
       ]
    },
    "author": "Danilov Egor",
@@ -62,12 +63,14 @@
       "pug": "^3.0.2",
       "qs": "^6.11.0",
       "sqlite3": "^5.0.11",
+      "undici": "^5.28.4",
       "webpack": "^5.74.0"
    },
    "devDependencies": {
       "@jest/globals": "^28.1.3",
       "@types/jest": "^28.1.7",
       "@types/node": "^18.7.11",
+      "cheerio": "^1.2.0",
       "css-loader": "^6.7.1",
       "dotenv": "^16.0.1",
       "eslint": "^8.22.0",
@@ -76,6 +79,7 @@
       "eslint-plugin-jest": "^26.8.7",
       "jest": "^28.1.3",
       "jest-cli": "^28.1.3",
+      "jest-environment-node": "^30.2.0",
       "pino-pretty": "^9.0.1",
       "style-loader": "^3.3.1",
       "webpack-cli": "^4.10.0"

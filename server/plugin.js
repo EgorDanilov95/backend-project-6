@@ -92,7 +92,10 @@ const registerPlugins = async (app) => {
   });
 
   fastifyPassport.registerUserDeserializer(
-    (user) => app.objection.models.user.query().findById(user.id),
+    async (user) => {
+      const foundUser = await app.objection.models.user.query().findById(user.id);
+      return foundUser || null;
+    }
   );
   fastifyPassport.registerUserSerializer((user) => Promise.resolve(user));
   fastifyPassport.use(new FormStrategy('form', app));
@@ -102,7 +105,7 @@ const registerPlugins = async (app) => {
   app.decorate('authenticate', (...args) => fastifyPassport.authenticate(
     'form',
     {
-      failureRedirect: app.reverse('root'),
+      failureRedirect: app.reverse('newSession'),
       failureFlash: i18next.t('flash.authError'),
     },
   // @ts-ignore

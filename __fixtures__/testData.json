@@ -1,6 +1,8 @@
 {
   "users": {
     "new": {
+      "firstName": "John",
+      "lastName": "Doe",
       "email": "malika_hodkiewicz75@live.com",
       "password": "RLJvaIgPOnX5r03"
     },
