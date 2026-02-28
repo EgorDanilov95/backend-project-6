@@ -2,9 +2,11 @@
 const objectionUnique = require('objection-unique');
 const BaseModel = require('./BaseModel.cjs');
 
-module.exports = class User extends unique(BaseModel) {
+const unique = objectionUnique({ fields: ['name'] });
+
+module.exports = class TaskStatus extends unique(BaseModel) {
   static get tableName() {
-    return 'TaskStatus';
+    return 'task_statuses';
   }
 
   static get jsonSchema() {

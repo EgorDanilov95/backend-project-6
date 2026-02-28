@@ -63,6 +63,12 @@ export default {
           more: 'Learn more',
         },
       },
+      statuses: {
+        id: 'ID',
+        header: 'Statuses',
+        name: 'Status name',
+        createdAt: 'Created at',
+      },
     },
   },
 };

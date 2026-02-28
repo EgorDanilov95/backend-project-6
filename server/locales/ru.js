@@ -67,6 +67,12 @@ export default {
           more: 'Узнать Больше',
         },
       },
+      statuses: {
+        id: 'ID',
+        header: 'Статусы',
+        name: 'Наименование',
+        createdAt: 'Дата создания',
+      },
     },
   },
 };
