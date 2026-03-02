@@ -2,6 +2,10 @@
 
 export default {
   translation: {
+    firstName: 'Firstname',
+    lastName: 'Lastname',
+    password: 'Password',
+    email: 'Email',
     appName: 'Task manager',
     flash: {
       session: {
@@ -32,6 +36,7 @@ export default {
         signIn: 'Login',
         signUp: 'Register',
         signOut: 'Logout',
+        statuses: 'Statuses',
       },
     },
     views: {
@@ -64,6 +69,11 @@ export default {
         },
       },
       statuses: {
+        new: {
+          created_status: 'Created new status',
+          submit: 'Create',
+          name: 'Name',
+        },
         id: 'ID',
         header: 'Statuses',
         name: 'Status name',

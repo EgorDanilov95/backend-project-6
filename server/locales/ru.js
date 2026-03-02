@@ -2,6 +2,10 @@
 
 export default {
   translation: {
+    firstName: 'Имя',
+    lastName: 'Фамилия',
+    password: 'Пароль',
+    email: 'Email',
     appName: 'Менеджер задач',
     flash: {
       session: {
@@ -29,6 +33,12 @@ export default {
         },
       },
       authError: 'Доступ запрещён! Пожалуйста, авторизируйтесь.',
+      statuses: {
+        create: {
+          success: 'Статус успешно создан',
+          error: 'Не удалось создать статус',
+        },
+      },
     },
     layouts: {
       application: {
@@ -36,6 +46,7 @@ export default {
         signIn: 'Вход',
         signUp: 'Регистрация',
         signOut: 'Выход',
+        statuses: 'Статусы',
       },
     },
     views: {
@@ -68,6 +79,12 @@ export default {
         },
       },
       statuses: {
+        new: {
+          created_status: 'Создание статуса',
+          created_button: 'Создать статус',
+          submit: 'Создать',
+          name: 'Наименование',
+        },
         id: 'ID',
         header: 'Статусы',
         name: 'Наименование',

@@ -21,6 +21,9 @@ html(lang="ru").h-100
             ul.navbar-nav.me-auto.mb-2.mb-lg-0
               li.nav-item
                 a.nav-link.px-3(href=route('users') class={ 'active fw-bold text-dark': currentRoute === 'users' })= t('layouts.application.users')
+              if isAuthenticated()
+                li.nav-item
+                  a.nav-link.px-3(href=route('statuses'))= t('layouts.application.statuses')
             ul.navbar-nav.gap-2
               if isAuthenticated()
                 li.nav-item

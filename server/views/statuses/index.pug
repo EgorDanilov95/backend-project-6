@@ -1,11 +1,13 @@
 extends ../layouts/application.pug
 
-
 block header
   = t('views.statuses.header')
 
 block content
-  .mt-4 
+  .mt-4
+    if currentUser
+      .mb-3.text-start
+        a.btn.btn-primary(href=route('newStatus'))= t('views.statuses.new.created_button')
     table.table.table-striped
       thead
         tr
@@ -13,7 +15,6 @@ block content
           th= t('views.statuses.name')
           th= t('views.statuses.createdAt')
           th= ' '
-          
       tbody
         each status in statuses
           tr
@@ -22,5 +23,5 @@ block content
             td= formatDate(status.created_at)
             td
               if currentUser
-                a.btn.btn-primary.btn-sm.me-2(href=`/users/${user.id}/edit`) Изменить
-                +buttonTo(`/users/${user.id}`, 'delete')(class="btn btn-danger btn-sm" value="Удалить")
+                a.btn.btn-primary.btn-sm.me-2(href=`/statuses/${status.id}/edit`) Изменить
+                +buttonTo(`/statuses/${status.id}`, 'delete')(class="btn btn-danger btn-sm" value="Удалить")

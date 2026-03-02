@@ -1,0 +1,15 @@
+extends ../layouts/application.pug
+
+block header
+  = t('views.statuses.new.created_status')
+
+block content
+  .container
+    .row.justify-content-center
+      .col-md-6
+        .card.shadow-sm.bg-white.bg-opacity-85
+          .card-body.text-dark
+            +formFor()(action=route('statuses') method='post')
+              +inputPlain(status, 'name', errors)(type ="text", placeholder=t('views.statuses.new.name'))
+              +submit(user)(value=t('views.statuses.new.submit'))
+              
