@@ -81,6 +81,12 @@ export default (app) => {
       if (updateData.executorId === '') {
         updateData.executorId = null;
       }
+      if (updateData.statusId !== undefined && updateData.statusId !== '') {
+        updateData.statusId = Number(updateData.statusId);
+      }
+      if (updateData.executorId !== undefined && updateData.executorId !== '' && updateData.executorId !== null) {
+        updateData.executorId = Number(updateData.executorId);
+      }
       try {
         await task.$query().patch(updateData);
         req.flash('info', i18next.t('flash.tasks.update.success'));
