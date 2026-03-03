@@ -1,0 +1,35 @@
+extends ../layouts/application.pug
+
+block header
+  = task.name
+
+block content
+  .container.mt-4
+    .card.shadow-sm
+      .card-body
+        h5.card-title= task.name
+        hr
+        
+        .mb-4
+          p.lead.text-muted= task.description || t('views.tasks.noDescription')
+        
+        dl.row
+          dt.col-sm-3= t('views.tasks.status')
+          dd.col-sm-9
+          
+            span.badge.bg-info.text-dark.px-3.py-2= task.status ? task.status.name : '—'
+
+          dt.col-sm-3= t('views.tasks.author')
+          dd.col-sm-9= task.creator ? task.creator.firstName + ' ' + task.creator.lastName : '—'
+
+          dt.col-sm-3= t('views.tasks.executor')
+          dd.col-sm-9= task.executor ? task.executor.firstName + ' ' + task.executor.lastName : t('views.tasks.executorNotAssigned')
+
+          dt.col-sm-3= t('views.tasks.created_at')
+          dd.col-sm-9= formatDate(task.createdAt)
+
+    .mt-3.d-flex.gap-2
+      if currentUser
+        a.btn.btn-primary(href=route('editTask', { id: task.id }))= t('views.tasks.edit.submit')
+      if currentUser && currentUser.id === task.creatorId
+        +buttonTo(route('deleteTask', { id: task.id }), 'delete')(class="btn btn-danger" value=t('views.tasks.delete.submit'))

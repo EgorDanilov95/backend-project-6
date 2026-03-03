@@ -21,7 +21,7 @@ block content
         each task in tasks
           tr
             td= task.id
-            td= task.name
+            td: a(href=route('taskShow', { id: task.id }))= task.name
             td= task.status ? task.status.name : ''
             td= task.creator ? task.creator.firstName + ' ' + task.creator.lastName : ''
             td= task.executor ? task.executor.firstName + ' ' + task.executor.lastName : ''

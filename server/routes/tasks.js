@@ -32,7 +32,7 @@ export default (app) => {
         req.flash('info', i18next.t('flash.tasks.create.success'));
         return reply.redirect(app.reverse('tasks'));
       } catch (err) {
-        console.error(err)
+        console.error(err);
         req.flash('error', i18next.t('flash.tasks.create.error'));
         const statuses = await app.objection.models.taskStatus.query();
         const users = await app.objection.models.user.query();
@@ -50,6 +50,15 @@ export default (app) => {
         });
       }
     })
+    .get('/tasks/:id', { name: 'taskShow', preValidation: app.authenticate }, async (req, reply) => {
+      const { id } = req.params;
+      const task = await app.objection.models.task.query().findById(id).withGraphJoined('[status, creator, executor]')
+      if (!task) {
+        return reply.status(404).send('task not found');
+      }
+      return reply.render('tasks/show', { task, currentUser: req.user });
+    })
+
     .get('/tasks/:id/edit', { name: 'editTask', preValidation: app.authenticate }, async (req, reply) => {
       const { id } = req.params;
       const task = await app.objection.models.task.query().findById(id);
@@ -111,4 +120,24 @@ export default (app) => {
         });
       }
     })
+    .delete('/tasks/:id', { name: 'deleteTask', preValidation: app.authenticate }, async (req, reply) => {
+      const { id } = req.params;
+      const task = await app.objection.models.task.query().findById(id);
+      if (!task) {
+        return reply.status(404).send('Task not found');
+      }
+      if (req.user.id !== task.creatorId) {
+        req.flash('error', i18next.t('flash.tasks.delete.rootError'));
+        return reply.redirect(app.reverse('tasks'));
+      }
+      try {
+        await task.$query().delete();
+        req.flash('success', i18next.t('flash.tasks.delete.success'));
+        return reply.redirect(app.reverse('tasks'));
+      } catch (err) {
+        console.error(err);
+        req.flash('error', i18next.t('flash.tasks.delete.error'));
+        return reply.redirect(app.reverse('tasks'));
+      }
+    });
 };

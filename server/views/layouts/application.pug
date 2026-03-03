@@ -30,7 +30,7 @@ html(lang="ru").h-100
             ul.navbar-nav.gap-2
               if isAuthenticated()
                 li.nav-item
-                  +buttonTo(route('session'), 'delete')(class="btn btn-outline-danger btn-sm px-3 fw-medium" value=t('layouts.application.signOut'))
+                  +buttonTo(route('session'), 'delete')(class="btn btn-outline-danger btn-sm px-3 fw-medium" value= t('layouts.application.signOut'))
               else
                 li.nav-item
                   a.nav-link.px-3(href=route('newSession') class={ 'active fw-bold text-dark': currentRoute === 'newSession' })= t('layouts.application.signIn')

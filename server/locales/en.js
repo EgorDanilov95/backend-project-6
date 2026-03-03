@@ -29,6 +29,16 @@ export default {
         },
       },
       authError: 'Access denied! Please login',
+      tasks: {
+        delete: {
+          success: 'task deleted',
+          rootError: 'Only the creator of a task can delete it',
+        },
+        create: {
+          success: 'Task has created!',
+          error: 'failed to create the task',
+        },
+      },
     },
     layouts: {
       application: {

@@ -65,11 +65,16 @@ export default (app) => {
     .delete('/users/:id', { name: 'deleteUser', preValidation: app.authenticate }, async (req, reply) => {
       const { id } = req.params;
       const user = await app.objection.models.user.query().findById(id);
+      const usersTask = await app.objection.models.task.query().where('creatorId', id).orWhere('executorId', id).resultSize()
       if (!user) {
         return reply.status(404).send('User not found');
       }
       if (req.user.id !== user.id) {
         req.flash('error', i18next.t('flash.users.notAllowed'));
+        return reply.redirect(app.reverse('users'));
+      }
+      if (usersTask > 0) {
+        req.flash('error', i18next.t('flash.users.delete.taskError'));
         return reply.redirect(app.reverse('users'));
       }
       try {

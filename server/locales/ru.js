@@ -26,6 +26,7 @@ export default {
         delete: {
           success: 'Пользователь успешно удален',
           error: 'Не удалось удалить пользователя',
+          taskError: 'Не удалось удалить, у пользователя есть активные задачи',
         },
         update: {
           success: 'Пользователь успешно изменен',
@@ -49,9 +50,14 @@ export default {
         delete: {
           success: 'Статус успешно удален',
           error: 'Не удалось удалить статус',
+          taskError: 'Это статус закреплен за задачей!',
         },
       },
       tasks: {
+        delete: {
+          success: 'Задача успешно удалена',
+          rootError: 'Удалить задачу может только создатель',
+        },
         create: {
           success: 'Задача успешно создана',
           error: 'Не удалось создать задачу',
@@ -120,6 +126,8 @@ export default {
         status: 'Статус',
         author: 'Автор',
         executor: 'Исполнитель',
+        description: 'Описание',
+        noDescription: '---',
         created_at: 'Дата создания',
         new: {
           created_button: 'Создать задачу',
@@ -134,6 +142,9 @@ export default {
         edit: {
           title: 'Изменение задачи',
           submit: 'Изменить',
+        },
+        delete: {
+          submit: 'Удалить',
         },
       },
     },

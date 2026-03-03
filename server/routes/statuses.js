@@ -10,7 +10,6 @@ export default (app) => {
       const status = new app.objection.models.taskStatus()
       return reply.render('statuses/new', {status})
     })
-
     .post('/statuses', {preValidation: app.authenticate}, async(req,reply) => {
       const status = new app.objection.models.taskStatus()
       status.$set(req.body.data)
@@ -54,12 +53,17 @@ export default (app) => {
     .delete('/statuses/:id', { name: 'deleteStatus', preValidation: app.authenticate }, async (req, reply) => {
       const { id } = req.params;
       const status = await app.objection.models.taskStatus.query().findById(id);
+      const tasksWithStatus = await app.objection.models.task.query().where('statusId', id).resultSize()
       if (!status) {
         return reply.status(404).send('Status not found');
       }
+      if (tasksWithStatus > 0) {
+        req.flash('error', i18next.t('flash.statuses.delete.taskError'))
+        return reply.redirect(app.reverse('statuses'));
+      }
       try {
         await status.$query().delete();
-        req.flash('info', i18next.t('flash.statuses.delete.success'));
+        req.flash('success', i18next.t('flash.statuses.delete.success'));
         return reply.redirect(app.reverse('statuses'));
       } catch (err) {
         console.error(err);
