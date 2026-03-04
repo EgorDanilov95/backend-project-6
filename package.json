@@ -20,7 +20,8 @@
          "<rootDir>/__tests__/helpers/"
       ],
       "setupFiles": [
-         "dotenv/config","./jest.setup.js"
+         "dotenv/config",
+         "./jest.setup.js"
       ]
    },
    "author": "Danilov Egor",
@@ -62,6 +63,7 @@
       "pino-pretty": "^9.0.1",
       "pug": "^3.0.2",
       "qs": "^6.11.0",
+      "rollbar": "^3.0.0",
       "sqlite3": "^5.0.11",
       "undici": "^5.28.4",
       "webpack": "^5.74.0"

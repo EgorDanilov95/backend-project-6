@@ -25,6 +25,7 @@ import getHelpers from './helpers/index.js';
 import * as knexConfig from '../knexfile.js';
 import models from './models/index.js';
 import FormStrategy from './lib/passportStrategies/FormStrategy.js';
+import Rollbar from 'rollbar';
 
 const __dirname = fileURLToPath(path.dirname(import.meta.url));
 
@@ -132,5 +133,18 @@ export default async (app, _options) => {
   addRoutes(app);
   addHooks(app);
 
+  if (process.env.ROLLBAR_ACCESS_TOKEN) {
+    const rollbar = new Rollbar({
+      accessToken: process.env.ROLLBAR_ACCESS_TOKEN,
+      environment: process.env.ROLLBAR_ENVIRONMENT || mode,
+      captureUncaught: true,
+      captureUnhandledRejections: true,
+    });
+    app.decorate('rollbar', rollbar);
+    app.setErrorHandler((error, request, reply) => {
+      app.rollbar.error(error, request);
+      reply.status(500).send('Internal Server Error');
+    });
+  }
   return app;
 };
