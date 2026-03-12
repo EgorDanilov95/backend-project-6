@@ -41,7 +41,6 @@
       "@fastify/sensible": "^5.1.0",
       "@fastify/static": "^6.5.0",
       "@fastify/view": "^7.1.0",
-      "@vscode/sqlite3": "^5.0.8",
       "ajv": "^8.18.0",
       "ajv-formats": "^3.0.1",
       "bootstrap": "^5.2.0",
