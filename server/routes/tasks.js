@@ -67,47 +67,60 @@ export default (app) => {
       });
     })
     .post('/tasks', { preValidation: app.authenticate }, async (req, reply) => {
-      const dataTask = req.body.data;
-      dataTask.statusId = dataTask.statusId ? Number(dataTask.statusId) : null;
-      if (dataTask.labels !== undefined && !Array.isArray(dataTask.labels)) {
-        dataTask.labels = [dataTask.labels];
+      const taskData = req.body.data;
+      const updateData = { ...taskData };
+      updateData.creatorId = req.user.id;
+      updateData.statusId = updateData.statusId ? parseInt(updateData.statusId, 10) : null;
+      if (updateData.executorId === '' || !updateData.executorId) {
+        updateData.executorId = null;
+      } else {
+        updateData.executorId = parseInt(updateData.executorId, 10);
       }
-      dataTask.creatorId = req.user.id;
-      if (dataTask.executorId === '') {
-        dataTask.executorId = null;
+
+      let labelIds = [];
+      if (updateData.labels !== undefined) {
+        const labels = Array.isArray(updateData.labels) ? updateData.labels : [updateData.labels];
+        labelIds = labels
+          .filter((id) => id && id !== '')
+          .map((id) => parseInt(id, 10));
+        delete updateData.labels;
       }
-      const task = new app.objection.models.task();
-      task.$set(dataTask);
+
       try {
-        await task.$query().insert();
-        const labelIds = (req.body.data.labels || []).map((id) => Number(id));
-        if (labelIds.length) {
-          await Promise.all(labelIds.map((id) => task.$relatedQuery('labels').relate(id)));
+        const validTask = await app.objection.models.task.fromJson(updateData);
+        const createdTask = await app.objection.models.task.query().insert(validTask);
+
+        if (labelIds.length > 0) {
+          await Promise.all(labelIds.map((labelId) => createdTask
+            .$relatedQuery('labels').relate(labelId)));
         }
+
         req.flash('info', i18next.t('flash.tasks.create.success'));
         return reply.redirect(app.reverse('tasks'));
       } catch (err) {
-        console.error(err);
         req.flash('error', i18next.t('flash.tasks.create.error'));
-        const statuses = await app.objection.models.taskStatus.query();
-        const labels = await app.objection.models.label.query();
-        const users = await app.objection.models.user.query();
-        if (dataTask.labels !== undefined && !Array.isArray(dataTask.labels)) {
-          dataTask.labels = [dataTask.labels];
-        }
-        if (dataTask.labels) {
-          dataTask.labels = dataTask.labels.map((id) => Number(id));
-        }
-        const usersWithName = users.map((user) => ({
-          id: user.id,
-          name: `${user.firstName} ${user.lastName}`,
-        }));
-        const emptyOption = { id: '', name: i18next.t('views.tasks.new.noExecutor') };
-        const usersForSelect = [emptyOption, ...usersWithName];
+
+        const [statuses, labels, users] = await Promise.all([
+          app.objection.models.taskStatus.query(),
+          app.objection.models.label.query(),
+          app.objection.models.user.query(),
+        ]);
+
+        const usersForSelect = [
+          { id: '', name: '' },
+          ...users.map((u) => ({ id: u.id, name: `${u.firstName} ${u.lastName}` })),
+        ];
+        const statusesForSelect = [{ id: '', name: '' }, ...statuses];
+
+        const taskWithLabels = {
+          ...taskData,
+          labels: labelIds,
+        };
+
         return reply.render('tasks/new', {
-          task: new app.objection.models.task().$set(dataTask),
-          statuses,
+          task: taskWithLabels,
           labels,
+          statuses: statusesForSelect,
           users: usersForSelect,
           errors: err.data || {},
         });

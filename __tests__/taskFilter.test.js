@@ -84,7 +84,7 @@ describe('tasks filters', () => {
   it('filter by status', async () => {
     const res = await app.inject({
       method: 'GET',
-      url: `/tasks?statusId=${status1.id}`,
+      url: `/tasks?status=${status1.id}`,
       headers: { cookie: cookies },
     });
     expect(ids(res)).toEqual(expect.arrayContaining([task1.id, task2.id]));
@@ -93,7 +93,7 @@ describe('tasks filters', () => {
   it('filter by executor', async () => {
     const res = await app.inject({
       method: 'GET',
-      url: `/tasks?executorId=${user2Id}`,
+      url: `/tasks?executor=${user2Id}`,
       headers: { cookie: cookies },
     });
     expect(ids(res)).toEqual(expect.arrayContaining([task2.id, task3.id]));
@@ -102,7 +102,7 @@ describe('tasks filters', () => {
   it('filter by label', async () => {
     const res = await app.inject({
       method: 'GET',
-      url: `/tasks?labelId=${label1.id}`,
+      url: `/tasks?label=${label1.id}`,
       headers: { cookie: cookies },
     });
     expect(ids(res)).toEqual(expect.arrayContaining([task1.id, task3.id]));
@@ -111,7 +111,7 @@ describe('tasks filters', () => {
   it('filter by my tasks', async () => {
     const res = await app.inject({
       method: 'GET',
-      url: '/tasks?createdByMe=true',
+      url: '/tasks?isCreatorUser=true',
       headers: { cookie: cookies },
     });
     expect(ids(res)).toEqual(expect.arrayContaining([task1.id, task3.id]));
@@ -120,7 +120,7 @@ describe('tasks filters', () => {
   it('combined filter', async () => {
     const res = await app.inject({
       method: 'GET',
-      url: `/tasks?statusId=${status1.id}&executorId=${user2Id}`,
+      url: `/tasks?status=${status1.id}&executor=${user2Id}`,
       headers: { cookie: cookies },
     });
     expect(ids(res)).toEqual([task2.id]);
