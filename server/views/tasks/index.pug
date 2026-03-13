@@ -1,66 +1,66 @@
 extends ../layouts/application.pug
 
 block header
-  = t('views.tasks.header')
+  = t('views.tasks.header') 
 
 block content
-  .mt-4
-    if currentUser
-      .mb-3.text-start
-        a.btn.btn-primary(href=route('newTask'))= t('views.tasks.new.created_button')
-
-    // Блок фильтрации в отдельной карточке
-    .card.shadow-sm.mb-5
-      .card-body
-        form(action=route('tasks') method='get')
-          .row.g-3
-            .col-md-3
-              label.form-label.fw-semibold(for='statusId')= t('views.tasks.status')
-              select.form-select(name='statusId' id='statusId')
+  a.btn.btn-primary.mb-3(href=route('newTask'))= t('views.tasks.new.created_button')
+  
+  .card.shadow-sm
+    .card-body.p-4
+      form(action=route('tasks') method='get')
+        .row
+          .col-12.col-md
+            .input-group.mb-3
+              label.input-group-text(for='data_status')= t('views.tasks.status')
+              select.form-select(name='status' id='data_status')
                 option(value='') Любой
                 each status in statuses
-                  option(value=status.id selected=(statusId == status.id))= status.name
-            .col-md-3
-              label.form-label.fw-semibold(for='executorId')= t('views.tasks.executor')
-              select.form-select(name='executorId' id='executorId')
+                  option(value=status.id selected=(filters.status == status.id))= status.name
+          
+          .col-12.col-md
+            .input-group.mb-3
+              label.input-group-text(for='data_executor')= t('views.tasks.executor')
+              select.form-select(name='executor' id='data_executor')
                 option(value='') Любой
                 each user in users
-                  option(value=user.id selected=(executorId == user.id))= user.name || (user.firstName + ' ' + user.lastName)
-            .col-md-3
-              label.form-label.fw-semibold(for='labelId')= t('views.tasks.label')
-              select.form-select(name='labelId' id='labelId')
+                  option(value=user.id selected=(filters.executor == user.id))= user.name || (user.firstName + ' ' + user.lastName)
+          
+          .col-12.col-md
+            .input-group.mb-3
+              label.input-group-text(for='data_label')= t('views.tasks.label')
+              select.form-select(name='label' id='data_label')
                 option(value='') Любая
                 each label in labels
-                  option(value=label.id selected=(labelId == label.id))= label.name
-            .col-md-3.d-flex.align-items-end
-              .form-check.mb-2
-                input.form-check-input(type='checkbox' name='createdByMe' id='createdByMe' checked=createdByMe)
-                label.form-check-label.fw-semibold(for='createdByMe')= t('views.tasks.myTasks')
-            .col-12
-              button.btn.btn-primary(type='submit') Показать
-              a.btn.btn-outline-secondary.ms-2(href=route('tasks')) Сбросить
-
-    table.table.table-striped
-      thead
+                  option(value=label.id selected=(filters.label == label.id))= label.name
+        
+        .mb-3.form-check
+          input.form-check-input(type='checkbox' name='isCreatorUser' id='data_isCreatorUser' checked=filters.isCreatorUser)
+          label.form-check-label(for='data_isCreatorUser')= t('views.tasks.myTasks') 
+        
+        button.btn.btn-primary(type='submit')= t('views.tasks.filter') 
+  
+  table.table.table-striped
+    thead
+      tr
+        th= t('views.tasks.id')
+        th= t('views.tasks.name')
+        th= t('views.tasks.status')
+        th= t('views.tasks.author')  
+        th= t('views.tasks.executor')
+        th= t('views.tasks.created_at')
+        th
+    tbody
+      each task in tasks
         tr
-          th= t('views.tasks.id')
-          th= t('views.tasks.name')
-          th= t('views.tasks.status')
-          th= t('views.tasks.author')
-          th= t('views.tasks.executor')
-          th= t('views.tasks.created_at')
-          th
-      tbody
-        each task in tasks
-          tr
-            td= task.id
-            td: a(href=route('taskShow', { id: task.id }))= task.name
-            td= task.status ? task.status.name : ''
-            td= task.creator ? task.creator.firstName + ' ' + task.creator.lastName : ''
-            td= task.executor ? task.executor.firstName + ' ' + task.executor.lastName : ''
-            td= formatDate(task.createdAt)
-            td
-              if currentUser
-                .d-flex
-                  a.btn.btn-primary.btn-sm.me-2(href=`/tasks/${task.id}/edit`) Изменить
-                  +buttonTo(`/tasks/${task.id}`, 'delete')(class="btn btn-danger btn-sm" value="Удалить")
+          td= task.id
+          td: a(href=route('taskShow', { id: task.id }))= task.name
+          td= task.status ? task.status.name : ''
+          td= task.creator ? task.creator.firstName + ' ' + task.creator.lastName : ''
+          td= task.executor ? task.executor.firstName + ' ' + task.executor.lastName : ''
+          td= formatDate(task.createdAt)
+          td
+            if currentUser
+              .d-flex
+                a.btn.btn-primary.btn-sm.me-2(href=`/tasks/${task.id}/edit`) Изменить
+                +buttonTo(`/tasks/${task.id}`, 'delete')(class="btn btn-danger btn-sm" value="Удалить")

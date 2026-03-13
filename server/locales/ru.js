@@ -152,6 +152,7 @@ export default {
         description: 'Описание',
         noDescription: '---',
         created_at: 'Дата создания',
+        filter: 'Показать',
         new: {
           created_button: 'Создать задачу',
           created_task: 'Создание задачи',

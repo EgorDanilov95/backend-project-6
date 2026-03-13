@@ -4,40 +4,51 @@ export default (app) => {
   app
     .get('/tasks', { name: 'tasks' }, async (req, reply) => {
       const {
-        statusId, executorId, labelId, createdByMe,
+        status,
+        executor,
+        label,
+        isCreatorUser,
       } = req.query;
+
       let query = app.objection.models.task.query().withGraphJoined('[status, creator, executor, labels]');
-      if (statusId && statusId !== '') {
-        query = query.where('statusId', statusId);
+
+      if (status && status !== '') {
+        query = query.where('statusId', status);
       }
-      if (executorId && executorId !== '') {
-        query = query.where('executorId', executorId);
+
+      if (executor && executor !== '') {
+        query = query.where('executorId', executor);
       }
-      if (labelId && labelId !== '') {
+
+      if (label && label !== '') {
         query = query.whereExists(
-          app.objection.models.task.relatedQuery('labels').where('labels.id', labelId),
+          app.objection.models.task.relatedQuery('labels').where('labels.id', label),
         );
       }
-      if (createdByMe && req.user) {
+
+      if (isCreatorUser && req.user) {
         query = query.where('creatorId', req.user.id);
       }
+
       const tasks = await query;
       const statuses = await app.objection.models.taskStatus.query().orderBy('name');
       const users = await app.objection.models.user.query().orderBy('firstName');
       const labels = await app.objection.models.label.query().orderBy('name');
+
       const filterValues = {
-        statusId: statusId || '',
-        executorId: executorId || '',
-        labelId: labelId || '',
-        createdByMe: createdByMe === 'on' || createdByMe === 'true',
+        status: status || '',
+        executor: executor || '',
+        label: label || '',
+        isCreatorUser: isCreatorUser === 'on' || isCreatorUser === 'true',
       };
+
       return reply.render('tasks/index', {
         tasks,
         currentUser: req.user,
         statuses,
         users: users.map((u) => ({ ...u, name: `${u.firstName} ${u.lastName}` })),
         labels,
-        ...filterValues,
+        filters: filterValues,
       });
     })
     .get('/tasks/new', { name: 'newTask', preValidation: app.authenticate }, async (req, reply) => {
