@@ -55,7 +55,7 @@ export default (app) => {
       const task = new app.objection.models.task();
       const statuses = await app.objection.models.taskStatus.query();
       const users = await app.objection.models.user.query();
-      const emptyStatusOption = { id: '', name: '' }; 
+      const emptyStatusOption = { id: '', name: '' };
       const statusesForSelect = [emptyStatusOption, ...statuses];
       const usersWithName = users.map((user) => ({
         id: user.id,
