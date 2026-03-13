@@ -196,7 +196,7 @@ describe('test users CRUD', () => {
         headers: { cookie: cookies },
       });
       expect(response.statusCode).toBe(302);
-      expect(response.headers.location).toBe('/');
+      expect(response.headers.location).toBe('/users');
 
       const deletedUser = await models.user.query().findById(testUser.id);
       expect(deletedUser).toBeUndefined();
