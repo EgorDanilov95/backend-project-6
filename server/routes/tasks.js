@@ -104,7 +104,7 @@ export default (app) => {
         const emptyOption = { id: '', name: i18next.t('views.tasks.new.noExecutor') };
         const usersForSelect = [emptyOption, ...usersWithName];
         return reply.render('tasks/new', {
-          task: dataTask,
+          task: app.objection.models.task().$set(dataTask),
           statuses,
           labels,
           users: usersForSelect,
