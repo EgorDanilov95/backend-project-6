@@ -10,6 +10,7 @@ block content
         .card.shadow-sm.bg-white.bg-opacity-85
           .card-body.text-dark
             +formFor()(action=route('statuses') method='post')
-              +inputPlain(status, 'name', errors)(type ="text", placeholder=t('views.statuses.new.name'))
+              .mb-3
+                label(for=getInputId('name'))= t('views.statuses.new.name')
+              +inputPlain(status, 'name', errors)(type="text", placeholder=t('views.statuses.new.name'))
               +submit(user)(value=t('views.statuses.new.submit'))
-              
