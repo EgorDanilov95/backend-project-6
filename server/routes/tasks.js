@@ -55,6 +55,8 @@ export default (app) => {
       const task = new app.objection.models.task();
       const statuses = await app.objection.models.taskStatus.query();
       const users = await app.objection.models.user.query();
+      const emptyStatusOption = { id: '', name: '' }; 
+      const statusesForSelect = [emptyStatusOption, ...statuses];
       const usersWithName = users.map((user) => ({
         id: user.id,
         name: `${user.firstName} ${user.lastName}`,
@@ -63,7 +65,7 @@ export default (app) => {
       const usersForSelect = [emptyOption, ...usersWithName];
       const labels = await app.objection.models.label.query();
       return reply.render('tasks/new', {
-        task, statuses, users: usersForSelect, labels,
+        task, statuses: statusesForSelect, users: usersForSelect, labels,
       });
     })
     .post('/tasks', { preValidation: app.authenticate }, async (req, reply) => {
