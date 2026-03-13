@@ -146,7 +146,7 @@ export default {
         name: 'Наименование',
         status: 'Статус',
         label: 'Метка',
-        myTasks: 'Мои задачи',
+        myTasks: 'Только мои задачи',
         author: 'Автор',
         executor: 'Исполнитель',
         description: 'Описание',
