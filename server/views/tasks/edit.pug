@@ -11,7 +11,7 @@ block content
           .card-body.text-dark
             +formFor()(action=route('updateTask', {id: task.id}) method='post')
               input(name="_method" type="hidden" value="patch")
-              +inputPlain(task, 'name', errors)(type ="text", placeholder=t('views.tasks.name'))
+              +input(task, 'name', errors)(type ="text")
               +input(task, 'description', errors)(type = 'text')
               +select(task, 'statusId', statuses, errors)
               +select(task, 'executorId', users, errors)

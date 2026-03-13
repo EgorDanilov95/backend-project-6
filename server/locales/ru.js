@@ -2,6 +2,7 @@
 
 export default {
   translation: {
+    name: 'Наименование',
     description: 'Описание',
     labels: 'Метки',
     statusId: 'Статус',

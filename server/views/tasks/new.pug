@@ -10,7 +10,7 @@ block content
         .card.shadow-sm.bg-white.bg-opacity-85
           .card-body.text-dark
             +formFor()(action=route('tasks') method='post')
-              +inputPlain(task, 'name', errors)(type ="text", placeholder=t('views.tasks.name'))
+              +input(task, 'name', errors)(type ="text")
               +input(task, 'description', errors)(type = 'text')
               +select(task, 'statusId', statuses, errors)
               +select(task, 'executorId', users, errors)

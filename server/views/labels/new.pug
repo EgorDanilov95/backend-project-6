@@ -10,6 +10,6 @@ block content
         .card.shadow-sm.bg-white.bg-opacity-85
           .card-body.text-dark
             +formFor()(action=route('labels') method='post')
-              +inputPlain(label, 'name', errors)(type ="text", placeholder=t('views.labels.new.name'))
+              +input(label, 'name', errors)(type ="text")
               +submit(label)(value=t('views.labels.new.submit'))
               

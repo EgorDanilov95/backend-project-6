@@ -11,6 +11,8 @@ block content
           .card-body.text-dark
             +formFor()(action=route('updateStatus', {id: status.id}) method='post')
               input(name="_method" type="hidden" value="patch")
-              +inputPlain(status, 'name', errors)(type ="text", placeholder=t('views.statuses.new.name'))
+              +input(status, 'name', errors)(
+                type="text",
+              )
               +submit(user)(value=t('views.statuses.edit.submit'))
               
