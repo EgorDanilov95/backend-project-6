@@ -68,6 +68,7 @@ export default (app) => {
     })
     .post('/tasks', { preValidation: app.authenticate }, async (req, reply) => {
       const dataTask = req.body.data;
+      dataTask.statusId = dataTask.statusId ? Number(dataTask.statusId) : null;
       if (dataTask.labels !== undefined && !Array.isArray(dataTask.labels)) {
         dataTask.labels = [dataTask.labels];
       }
@@ -104,7 +105,7 @@ export default (app) => {
         const emptyOption = { id: '', name: i18next.t('views.tasks.new.noExecutor') };
         const usersForSelect = [emptyOption, ...usersWithName];
         return reply.render('tasks/new', {
-          task: app.objection.models.task().$set(dataTask),
+          task: new app.objection.models.task().$set(dataTask),
           statuses,
           labels,
           users: usersForSelect,
